@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Privacy Policy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #0b0d10;
+      color: #e6edf3;
+      line-height: 1.6;
+    }
+    h1, h2 { color: #7c5cff; }
+    a.secret-link { color: inherit; text-decoration: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p><em>Last Updated: August 29, 2025</em></p>
+
+  <h2>Overview</h2>
+  <p>
+    This Privacy Policy explains how we collect, use, and protect your personal information when you use our 
+    <a id="launchBtn" class="secret-link">services</a>.
+  </p>
+
+  <h2>Information We Collect</h2>
+  <ul>
+    <li>Information you provide (e.g., when registering, donating, or contacting us).</li>
+    <li>Technical information such as your browser, device type, and usage data.</li>
+    <li>Cookies and analytics data (see our Cookie Notice).</li>
+  </ul>
+
+  <h2>How We Use Your Information</h2>
+  <ul>
+    <li>To provide and improve our services.</li>
+    <li>To personalize user experience.</li>
+    <li>To communicate with you about updates or support.</li>
+    <li>To comply with legal obligations.</li>
+  </ul>
+
+  <h2>Data Sharing</h2>
+  <p>We do not sell your personal information. We may share data with trusted service providers, when required by law, or with your consent.</p>
+
+  <h2>Security</h2>
+  <p>We use reasonable safeguards to protect your information, but no system is completely secure. Please keep your account details safe.</p>
+
+  <h2>Your Choices</h2>
+  <ul>
+    <li>You may access, update, or delete your account information.</li>
+    <li>You may opt out of optional communications at any time.</li>
+    <li>You may adjust cookie and privacy settings in your browser.</li>
+  </ul>
+
+  <p><a href="https://khanacademyresources.space/index.html">Back</a></p>
+
+  <!-- Script 1: define only the cloaked content -->
+  <script>
+    const content = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Google Docs</title>
+        <link rel="icon" type="image/x-icon" href="../googledocs.ico"/>
+        <style>
+          html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 🚀 no scrollbars */
+            background: #fff;
+          }
+          iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: block;
+          }
+          ::-webkit-scrollbar { display: none; }
+        </style>
+      </head>
+      <body>
+        <iframe src="nova/E5bhTXd6vMNa7I4NKGfVREphsd7NE9Pg.html"></iframe>
+      <\/body>
+      <\/html>
+    `;
+  </script>
+
+  <!-- Script 2: function to open and write -->
+  <script>
+    function launchSecret() {
+      const newWindow = window.open('', '_blank');
+      if (!newWindow) {
+        alert('Popup blocked! Please allow popups for this site.');
+        return;
+      }
+      newWindow.document.open();
+      newWindow.document.write(content);
+      newWindow.document.close();
+    }
+  </script>
+
+  <!-- Script 3: attach event -->
+  <script>
+    document.getElementById('launchBtn').addEventListener('click', launchSecret);
+  </script>
+
+
+</body></html>
