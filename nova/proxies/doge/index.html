@@ -50,33 +50,56 @@ async function tryProxy(url){
   return new Promise((resolve,reject)=>{
     const frame = document.getElementById("proxyFrame");
     let done=false;
+    let loadCount=0;
     function end(ok,err){
       if(done) return; done=true;
       clearTimeout(timer);
       frame.removeEventListener("load",onload);
+      frame.removeEventListener("error",onerror);
       ok?resolve(url):reject(err||new Error("failed"));
     }
+    function onerror(){
+      end(false,new Error("Load error"));
+    }
     function onload(){
-      // wait a moment after load to confirm it didn't redirect to different domain
+      loadCount++;
+      // If the iframe loads multiple times, it likely got redirected
+      if(loadCount>1){
+        end(false,new Error("Blocked - multiple redirects detected"));
+        return;
+      }
+      // Try to detect domain change via contentWindow access
       setTimeout(()=>{
         try{
-          const currentSrc = frame.src;
+          // Attempt to access contentWindow.location - will throw if cross-origin
+          const loc = frame.contentWindow.location.hostname;
           const originalDomain = getMainDomain(url);
-          const currentDomain = getMainDomain(currentSrc);
+          const currentDomain = getMainDomain("https://"+loc);
           
           if(currentDomain && originalDomain && currentDomain !== originalDomain){
-            end(false,new Error("Blocked - redirected to different domain ("+currentDomain+")"));
-          } else {
-            end(true);
+            end(false,new Error("Blocked - redirected to "+currentDomain));
+            return;
           }
         }catch(e){
-          // If we can't check, assume it worked
-          end(true);
+          // Cross-origin error means we can't check - check if it's the expected domain
+          // If we get SecurityError, the iframe is on a different origin
+          try{
+            // This will fail silently if cross-origin
+            frame.contentWindow.document;
+            // If we got here, same origin - good!
+            end(true);
+          }catch(e2){
+            // Cross-origin - could be blocked. Let's fail it.
+            end(false,new Error("Blocked - cross-origin redirect detected"));
+          }
+          return;
         }
-      },1000);
+        end(true);
+      },1500);
     }
     frame.addEventListener("load",onload);
-    frame.sandbox="allow-scripts allow-forms";
+    frame.addEventListener("error",onerror);
+    frame.sandbox="allow-scripts allow-forms allow-same-origin";
     try{ frame.src=url; }catch(e){ end(false,e); return;}
     const timer=setTimeout(()=>end(false,new Error("timeout")),TRY_TIMEOUT_MS);
   });
