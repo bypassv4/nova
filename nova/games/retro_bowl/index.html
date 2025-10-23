@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-    <a><a>
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="pragma" content="no-cache"/>
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name ="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta charset="utf-8"/>
         <title>Bandruf#1</title>
@@ -27,8 +26,8 @@
                       border: 0px;
             }
             :-webkit-full-screen #canvas {
-                 width: 80%;
-                 height: 80%;
+                 width: 100%;
+                 height: 100%;
             }
             div.gm4html5_div_class
             {
@@ -61,8 +60,8 @@
             }
             /* END - Login Dialog Box */
             :-webkit-full-screen {
-               width: 80%;
-               height: 80%;
+               width: 100%;
+               height: 100%;
             }
         </style>
     </head>
@@ -75,13 +74,30 @@
                      <p>Your browser doesn't support HTML5 canvas.</p>
             </canvas>
             <script>
-                document.querySelector('canvas').width = window.innerWidth;
-                document.querySelector('canvas').height = window.innerHeight;
+                function resizeCanvas() {
+                    var canvas = document.querySelector('canvas');
+                    if (canvas) {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    }
+                }
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
             </script>
         </div>
 
         <!-- Run the game code -->
         <script type="text/javascript" src="html5game/RetroBowl.js"></script>
-        <script>window.onload = GameMaker_Init;</script>
+        <script>
+            window.onload = function() {
+                try {
+                    if (typeof GameMaker_Init !== 'undefined') {
+                        GameMaker_Init();
+                    }
+                } catch(e) {
+                    console.error('Game initialization error:', e);
+                }
+            };
+        </script>
     </body>
 </html>
