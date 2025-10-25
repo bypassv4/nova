@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaLearn | Courses</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0d10;
+      color: #e6edf3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    /* ─── NAVBAR ───────────────────────────── */
+    .navbar {
+      width: 100%;
+      background: #111418;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .navbar .logo {
+      color: #7c5cff;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      color: #9fb0c0;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: #e6edf3;
+      text-decoration: underline;
+    }
+
+    /* ─── MAIN ───────────────────────────── */
+    h1 {
+      font-size: 2.7rem;
+      margin-top: 5vh;
+      margin-bottom: 0.3rem;
+      color: #e6edf3;
+    }
+
+    p {
+      font-size: 1rem;
+      max-width: 520px;
+      color: #9fb0c0;
+      margin: 1rem auto 2rem;
+    }
+
+    /* ─── COURSE LINKS ───────────────────── */
+    .courses {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+      width: fit-content;
+    }
+
+    .courses a {
+      background: #111418;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      color: #7c5cff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: 0.2s ease;
+    }
+
+    .courses a:hover {
+      background: #161a1f;
+      text-decoration: underline;
+    }
+
+    /* ─── FOOTER LINKS ───────────────────── */
+    .footer {
+      margin-top: auto;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .footer a {
+      color: #7c5cff;
+      margin: 0 0.3rem;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">NovaLearn</div>
+    <div class="nav-links">
+      <a href="#">Dashboard</a>
+      <a href="#">Courses</a>
+      <a href="#">Community</a>
+      <a href="#">Profile</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <h1>Explore Coding Courses</h1>
+  <p>Build real-world skills through interactive lessons, challenges, and projects.</p>
+
+  <div class="courses">
+    <a href="#">HTML & CSS Basics</a>
+    <a href="#">JavaScript Fundamentals</a>
+    <a href="#">Python for Beginners</a>
+    <a href="#">Intro to Cybersecurity</a>
+    <a href="#">Web Development Projects</a>
+    <a href="#">Version Control (Git)</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <a href="tos.html">Terms of Service</a> · 
+    <a href="privacy.html">Privacy Policy</a> ·
+    <a href="#">Support</a>
+  </div>
+
+</body>
+</html>
