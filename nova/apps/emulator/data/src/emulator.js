@@ -3035,6 +3035,117 @@ class EmulatorJS {
                     this.controlPopup.setAttribute("player-num", i);
                 })
             }
+
+            // Add restart keybind option
+            const restartK = 27;
+            const restartControlLabel = this.localization("Restart Game");
+
+            const restartButtonText = this.createElement("div");
+            restartButtonText.setAttribute("data-id", restartK);
+            restartButtonText.setAttribute("data-index", i);
+            restartButtonText.setAttribute("data-label", restartControlLabel);
+            restartButtonText.style = "margin-bottom:10px;border-top: 1px solid #333;padding-top:10px;";
+            restartButtonText.classList.add("ejs_control_bar");
+
+            const restartTitle = this.createElement("div");
+            restartTitle.style = "width:25%;float:left;font-size:12px;";
+            const restartLabel = this.createElement("label");
+            restartLabel.innerText = restartControlLabel + ":";
+            restartTitle.appendChild(restartLabel);
+
+            const restartTextBoxes = this.createElement("div");
+            restartTextBoxes.style = "width:50%;float:left;";
+
+            const restartTextBox1Parent = this.createElement("div");
+            restartTextBox1Parent.style = "width:50%;float:left;padding: 0 5px;";
+            const restartTextBox1 = this.createElement("input");
+            restartTextBox1.style = "text-align:center;height:25px;width: 100%;";
+            restartTextBox1.type = "text";
+            restartTextBox1.setAttribute("readonly", "");
+            restartTextBox1.setAttribute("placeholder", "");
+            restartTextBox1Parent.appendChild(restartTextBox1);
+
+            const restartTextBox2Parent = this.createElement("div");
+            restartTextBox2Parent.style = "width:50%;float:left;padding: 0 5px;";
+            const restartTextBox2 = this.createElement("input");
+            restartTextBox2.style = "text-align:center;height:25px;width: 100%;";
+            restartTextBox2.type = "text";
+            restartTextBox2.setAttribute("readonly", "");
+            restartTextBox2.setAttribute("placeholder", "");
+            restartTextBox2Parent.appendChild(restartTextBox2);
+
+            buttonListeners.push(() => {
+                restartTextBox2.value = "";
+                restartTextBox1.value = "";
+                if (this.controls[i][restartK] && this.controls[i][restartK].value !== undefined) {
+                    let value = this.keyMap[this.controls[i][restartK].value];
+                    value = this.localization(value);
+                    restartTextBox2.value = value;
+                }
+                if (this.controls[i][restartK] && this.controls[i][restartK].value2 !== undefined && this.controls[i][restartK].value2 !== "") {
+                    let value2 = this.controls[i][restartK].value2.toString();
+                    if (value2.includes(":")) {
+                        value2 = value2.split(":");
+                        value2 = this.localization(value2[0]) + ":" + this.localization(value2[1])
+                    } else if (!isNaN(value2)) {
+                        value2 = this.localization("BUTTON") + " " + this.localization(value2);
+                    } else {
+                        value2 = this.localization(value2);
+                    }
+                    restartTextBox1.value = value2;
+                }
+            })
+
+            if (this.controls[i][restartK] && this.controls[i][restartK].value) {
+                let value = this.keyMap[this.controls[i][restartK].value];
+                value = this.localization(value);
+                restartTextBox2.value = value;
+            }
+            if (this.controls[i][restartK] && this.controls[i][restartK].value2) {
+                let value2 = this.controls[i][restartK].value2.toString();
+                if (value2.includes(":")) {
+                    value2 = value2.split(":");
+                    value2 = this.localization(value2[0]) + ":" + this.localization(value2[1])
+                } else if (!isNaN(value2)) {
+                    value2 = this.localization("BUTTON") + " " + this.localization(value2);
+                } else {
+                    value2 = this.localization(value2);
+                }
+                restartTextBox1.value = value2;
+            }
+
+            restartTextBoxes.appendChild(restartTextBox1Parent);
+            restartTextBoxes.appendChild(restartTextBox2Parent);
+
+            const restartPadding = this.createElement("div");
+            restartPadding.style = "clear:both;";
+            restartTextBoxes.appendChild(restartPadding);
+
+            const restartSetButton = this.createElement("div");
+            restartSetButton.style = "width:25%;float:left;";
+            const restartButton = this.createElement("a");
+            restartButton.classList.add("ejs_control_set_button");
+            restartButton.innerText = this.localization("Set");
+            restartSetButton.appendChild(restartButton);
+
+            const restartPadding2 = this.createElement("div");
+            restartPadding2.style = "clear:both;";
+
+            restartButtonText.appendChild(restartTitle);
+            restartButtonText.appendChild(restartTextBoxes);
+            restartButtonText.appendChild(restartSetButton);
+            restartButtonText.appendChild(restartPadding2);
+
+            player.appendChild(restartButtonText);
+
+            this.addEventListener(restartButtonText, "mousedown", (e) => {
+                e.preventDefault();
+                this.controlPopup.parentElement.parentElement.removeAttribute("hidden");
+                this.controlPopup.innerText = "[ " + restartControlLabel + " ]\n" + this.localization("Press Keyboard");
+                this.controlPopup.setAttribute("button-num", restartK);
+                this.controlPopup.setAttribute("player-num", i);
+            })
+
             controls.appendChild(player);
             player.setAttribute("hidden", "");
             playerDivs.push(player);
@@ -3186,9 +3297,14 @@ class EmulatorJS {
                 26: {
                     "value": "3"
                 },
-                27: {},
+                27: {
+                    "value": 82
+                },
                 28: {},
                 29: {},
+                30: {
+                    "value": "4"
+                }
             },
             1: {},
             2: {},
@@ -3338,6 +3454,24 @@ class EmulatorJS {
         }
         if (this.settingsMenu.style.display !== "none" || this.isPopupOpen() || this.getSettingValue("keyboardInput") === "enabled") return;
         e.preventDefault();
+        
+        // Check for restart keybind (slot 27) for any player
+        if (e.type === "keydown") {
+            for (let i = 0; i < 4; i++) {
+                if (this.controls[i][27] && this.controls[i][27].value === e.keyCode) {
+                    if (this.isNetplay && this.netplay.owner) {
+                        this.gameManager.restart();
+                        this.netplay.reset();
+                        this.netplay.sendMessage({ restart: true });
+                        this.play();
+                    } else if (!this.isNetplay) {
+                        this.gameManager.restart();
+                    }
+                    return;
+                }
+            }
+        }
+        
         const special = [16, 17, 18, 19, 20, 21, 22, 23];
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 30; j++) {
