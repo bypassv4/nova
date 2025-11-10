@@ -4398,7 +4398,7 @@ class EmulatorJS {
         } else if (option === "ff-ratio") {
             if (this.isFastForward) this.gameManager.toggleFastForward(0);
             if (value === "unlimited") {
-                this.gameManager.setFastForwardRatio(0);
+                this.gameManager.setFastForwardRatio(3000);
             } else if (!isNaN(value)) {
                 this.gameManager.setFastForwardRatio(parseFloat(value));
             }
